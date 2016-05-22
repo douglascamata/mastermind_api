@@ -1,16 +1,13 @@
-version: '2'
-
-services:
-  db:
-    image: mongo
-  cache:
-    image: mendsley/alpine-redis
-  web:
-    build: .
-    links:
-      - db
-      - cache
-    volumes:
-      - .:/app
-    ports:
-      - '3000:3000'
+db:
+  image: mongo
+cache:
+  image: mendsley/alpine-redis
+web:
+  build: .
+  links:
+    - db
+    - cache
+  volumes:
+    - .:/app
+  ports:
+    - '3000:3000'
