@@ -9,8 +9,8 @@ Games are stored in MongoDB.
 
 # Setup instructions
 
-First, setup your `TELEGRAM_BOT_TOKEN` environment var to the correct telegram
-bot token using `dotenv`.
+First, setup bot by talking to `@BotFather` in Telegram to get the bot token.
+Then set in to the `TELEGRAM_BOT_TOKEN` environment variable using `dotenv`.
 
 Install `docker` and `docker-compose`. Then run `docker-compose up` and be
 happy! It will build and start all the necessary images for you.
