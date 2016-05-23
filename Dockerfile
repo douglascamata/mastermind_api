@@ -1,24 +1,22 @@
 FROM gliderlabs/alpine:3.2
 
 ENV BUILD_PACKAGES="curl-dev ruby-dev build-base" \
-    DEV_PACKAGES="zlib-dev libxml2-dev libxslt-dev tzdata yaml-dev sqlite-dev postgresql-dev mysql-dev" \
-    RUBY_PACKAGES="ruby ruby-io-console nodejs"
+    DEV_PACKAGES="zlib-dev libxml2-dev libxslt-dev tzdata" \
+    RUBY_PACKAGES="ruby ruby-io-console"
 
 RUN \
   apk --update --upgrade add $BUILD_PACKAGES $RUBY_PACKAGES $DEV_PACKAGES && \
+  bundle config build.nokogiri --use-system-libraries && \
+  find / -type f -iname \*.apk-new -delete && \
   gem install -N bundler && \
-  bundle config build.nokogiri --use-system-libraries
+  rm -rf /var/cache/apk/* && \
+  rm -rf /usr/lib/lib/ruby/gems/*/cache/* && \
+  rm -rf ~/.gem
 
 RUN \
   echo 'gem: --no-document' >> ~/.gemrc && \
   cp ~/.gemrc /etc/gemrc && \
   chmod uog+r /etc/gemrc
-
-RUN \
-  find / -type f -iname \*.apk-new -delete && \
-  rm -rf /var/cache/apk/* && \
-  rm -rf /usr/lib/lib/ruby/gems/*/cache/* && \
-  rm -rf ~/.gem
 
 # Configure the main working directory. This is the base
 # directory used in any further RUN, COPY, and ENTRYPOINT
@@ -31,7 +29,8 @@ WORKDIR /app
 # will be cached unless changes to one of those two files
 # are made.
 COPY Gemfile Gemfile.lock ./
-RUN bundle install --jobs 20
+RUN \
+  bundle install --jobs 20 && \
 
 # Copy the main application.
 COPY . ./
