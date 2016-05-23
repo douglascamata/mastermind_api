@@ -18,18 +18,7 @@ Bundler.require(*Rails.groups)
 module Mastermind
   class Application < Rails::Application
 
-    config.session_store :redis_store, servers: {
-      host: "cache",
-      port: 6379,
-      db: 0,
-      # password: "mysecret",
-      namespace: "session"
-     },
-     expires_in: 15.minutes
-
-    config.telegram_updates_controller.session_store = :redis_store, {
-      expires_in: 15.minutes
-    }
+    config.cache_store = :redis_store, "redis://cache:6379/0/cache", { expires_in: 15.minutes }
 
     Telegram.bot_poller_mode = true
 
