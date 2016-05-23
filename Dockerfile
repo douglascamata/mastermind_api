@@ -30,7 +30,7 @@ WORKDIR /app
 # are made.
 COPY Gemfile Gemfile.lock ./
 RUN \
-  bundle install --jobs 20 && \
+  bundle install --jobs 20
 
 # Copy the main application.
 COPY . ./
