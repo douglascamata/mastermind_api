@@ -31,6 +31,8 @@ module Mastermind
       expires_in: 15.minutes
     }
 
+    Telegram.bot_poller_mode = true
+
     config.autoload_paths += Dir["#{config.root}/lib/**/"]
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
