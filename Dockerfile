@@ -6,9 +6,9 @@ ENV BUILD_PACKAGES="curl-dev ruby-dev build-base" \
 
 RUN \
   apk --update --upgrade add $BUILD_PACKAGES $RUBY_PACKAGES $DEV_PACKAGES && \
+  gem install -N bundler && \
   bundle config build.nokogiri --use-system-libraries && \
   find / -type f -iname \*.apk-new -delete && \
-  gem install -N bundler && \
   rm -rf /var/cache/apk/* && \
   rm -rf /usr/lib/lib/ruby/gems/*/cache/* && \
   rm -rf ~/.gem
